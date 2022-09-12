@@ -97,7 +97,6 @@ export const BlogSEO = ({
       url: img.includes('http') ? img : siteMetadata.siteUrl + img,
     }
   })
-
   let authorList
   if (authorDetails) {
     authorList = authorDetails.map((author) => {
