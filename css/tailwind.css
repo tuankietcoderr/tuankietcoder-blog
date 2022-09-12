@@ -6,6 +6,14 @@ p > img:first-child {
   @apply w-full rounded-md;
 }
 
+pre > code {
+  @apply max-h-[400px];
+}
+
+pre::-webkit-scrollbar {
+  @apply w-0;
+}
+
 .task-list-item::before {
   @apply hidden;
 }
