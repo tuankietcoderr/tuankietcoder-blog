@@ -1,11 +1,11 @@
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Logo from '@/data/logo.svg'
 import Link from './Link'
 import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
+import Image from 'next/image'
 
 const LayoutWrapper = ({ children }) => {
   return (
@@ -15,8 +15,16 @@ const LayoutWrapper = ({ children }) => {
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
-                <div className="mr-3">
-                  <Logo />
+                <div className="mr-3 grid h-[50px] w-[50px] place-items-center">
+                  <Image
+                    src="/static/images/logo.png"
+                    width={100}
+                    height={100}
+                    alt="tuankietcoder blog logo"
+                    className="rounded-md"
+                    quality={100}
+                    objectFit="contain"
+                  />
                 </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
                   <div className="hidden h-6 text-2xl font-semibold sm:block">

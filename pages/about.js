@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { MDXLayoutRenderer } from '@/components/MDXComponents'
 import { getFileBySlug } from '@/lib/mdx'
 
@@ -12,10 +13,12 @@ export default function About({ authorDetails }) {
   const { mdxSource, frontMatter } = authorDetails
 
   return (
-    <MDXLayoutRenderer
-      layout={frontMatter.layout || DEFAULT_LAYOUT}
-      mdxSource={mdxSource}
-      frontMatter={frontMatter}
-    />
+    <>
+      <MDXLayoutRenderer
+        layout={frontMatter.layout || DEFAULT_LAYOUT}
+        mdxSource={mdxSource}
+        frontMatter={frontMatter}
+      />
+    </>
   )
 }
