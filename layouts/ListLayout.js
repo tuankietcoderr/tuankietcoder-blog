@@ -1,7 +1,7 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Pagination from '@/components/Pagination'
 import formatDate from '@/lib/utils/formatDate'
 
@@ -12,9 +12,26 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 
+  const inputRef = useRef(null)
+  // console.log(inputRef)
+  useEffect(() => {
+    window.addEventListener('keyup', (e) => {
+      if (e.key === '/') {
+        inputRef.current.value = ''
+        inputRef.current?.focus()
+      }
+    })
+    return () => {
+      window.removeEventListener('keyup', () => {
+        inputRef.current = null
+      })
+    }
+  }, [])
+
   // If initialDisplayPosts exist, display it if no searchValue is specified
-  const displayPosts =
-    initialDisplayPosts.length > 0 && !searchValue ? initialDisplayPosts : filteredBlogPosts
+  const displayPosts = useMemo(() => {
+    return initialDisplayPosts.length > 0 && !searchValue ? initialDisplayPosts : filteredBlogPosts
+  }, [filteredBlogPosts, initialDisplayPosts, searchValue])
 
   return (
     <>
@@ -25,10 +42,13 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
           </h1>
           <div className="relative max-w-lg">
             <input
-              aria-label="Search articles"
+              ref={inputRef}
+              aria-label="Thử nhập react, framework,..."
               type="text"
               onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search articles"
+              placeholder={inputRef.current?.placeholder || 'Nhấn / để tìm kiếm'}
+              onFocus={() => (inputRef.current.placeholder = 'Thử nhập react, framework,...')}
+              onBlur={() => (inputRef.current.placeholder = 'Nhấn / để tìm kiếm')}
               className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
             />
             <svg
