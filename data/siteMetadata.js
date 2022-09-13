@@ -9,7 +9,7 @@ const siteMetadata = {
   siteRepo: 'https://github.com/tuankietcoderr/tuankietcoder-blog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.jpg',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/KBlog.png',
   email: 'tuankietwebdevfw@gmail.com',
   github: 'https://github.com/tuankietcoderr',
   // twitter: 'https://twitter.com/Twitter',
