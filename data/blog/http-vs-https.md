@@ -2,7 +2,7 @@
 title: HTTP vs HTTPS - Sự khác biệt
 date: '2022-09-13'
 tags: ['definition', 'https', 'http']
-images: ['/static/thumbnails/2022/rest-api.png']
+images: ['/static/thumbnails/2022/http-vs-https.png']
 draft: false
 summary: Hầu hết người dùng máy tính chỉ thấy rằng trình duyệt đang nói với họ rằng ứng dụng của họ không an toàn và một hacker có thể muốn đánh cắp thông tin quan trọng của họ. Điều này dẫn đến việc người dùng bỏ chạy nhanh hơn kỷ lục hiện tại của Usain Bolt.
 ---
