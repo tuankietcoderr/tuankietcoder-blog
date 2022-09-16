@@ -1,9 +1,6 @@
-import Link from '@/components/Link'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import ListItemCard from '@/components/card/ListItemCard'
 import Pagination from '@/components/Pagination'
-import formatDate from '@/lib/utils/formatDate'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 export default function ListLayout({ posts, title, initialDisplayPosts = [], pagination }) {
   const [searchValue, setSearchValue] = useState('')
@@ -14,19 +11,6 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
 
   const inputRef = useRef(null)
   // console.log(inputRef)
-  useEffect(() => {
-    window.addEventListener('keyup', (e) => {
-      if (e.key === '/') {
-        inputRef.current.value = ''
-        inputRef.current?.focus()
-      }
-    })
-    return () => {
-      window.removeEventListener('keyup', () => {
-        inputRef.current = null
-      })
-    }
-  }, [])
 
   // If initialDisplayPosts exist, display it if no searchValue is specified
   const displayPosts = useMemo(() => {
@@ -46,9 +30,9 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
               aria-label="Thử nhập react, framework,..."
               type="text"
               onChange={(e) => setSearchValue(e.target.value)}
-              placeholder={inputRef.current?.placeholder || 'Nhấn / để tìm kiếm'}
+              placeholder={'Tìm kiếm'}
               onFocus={() => (inputRef.current.placeholder = 'Thử nhập react, framework,...')}
-              onBlur={() => (inputRef.current.placeholder = 'Nhấn / để tìm kiếm')}
+              onBlur={() => (inputRef.current.placeholder = 'Tìm kiếm')}
               className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
             />
             <svg
@@ -69,38 +53,9 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
         </div>
         <ul>
           {!filteredBlogPosts.length && 'No posts found.'}
-          {displayPosts.map((frontMatter) => {
-            const { slug, date, title, summary, tags } = frontMatter
-            return (
-              <li key={slug} className="py-4">
-                <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                  <dl>
-                    <dt className="sr-only">Published on</dt>
-                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                      <time dateTime={date}>{formatDate(date)}</time>
-                    </dd>
-                  </dl>
-                  <div className="space-y-3 xl:col-span-3">
-                    <div>
-                      <h3 className="text-2xl font-bold leading-8 tracking-tight">
-                        <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
-                          {title}
-                        </Link>
-                      </h3>
-                      <div className="flex flex-wrap">
-                        {tags.map((tag) => (
-                          <Tag key={tag} text={tag} />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                      {summary}
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
+          {displayPosts.map((frontMatter) => (
+            <ListItemCard {...frontMatter} key={frontMatter.slug} />
+          ))}
         </ul>
       </div>
       {pagination && pagination.totalPages > 1 && !searchValue && (

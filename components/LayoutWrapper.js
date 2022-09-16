@@ -6,8 +6,15 @@ import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import Image from 'next/image'
+import { AuthContext } from 'contexts/AuthContext'
+import { useContext } from 'react'
 
 const LayoutWrapper = ({ children }) => {
+  const {
+    authState: { user },
+    logOutUser,
+  } = useContext(AuthContext)
+
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
@@ -48,6 +55,20 @@ const LayoutWrapper = ({ children }) => {
                 </Link>
               ))}
             </div>
+            {!user ? (
+              <Link href="/signin">
+                <button className="rounded-md bg-primary-500 py-2 px-4 text-white sm:hover:bg-primary-700">
+                  Sign In
+                </button>
+              </Link>
+            ) : (
+              <Link href={`/user/${user?.username}`}>
+                <button className="rounded-md bg-primary-500 py-2 px-4 text-white sm:hover:bg-primary-700">
+                  Profile
+                </button>
+              </Link>
+            )}
+            {/* <button className="ml-2 rounded-md border border-gray-200 py-2 px-4">Register</button> */}
             <ThemeSwitch />
             <MobileNav />
           </div>
