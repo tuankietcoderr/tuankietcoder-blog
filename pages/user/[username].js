@@ -13,14 +13,14 @@ export async function getServerSideProps({ params }) {
   try {
     const username = params.username
     const posts = await getAllFilesFrontMatter('blog')
-    const response = await axios.get(`${BASE_API_URL}/api/user/${username}`)
-    const user = response.data.user
-    const filterPosts = posts.filter((post) => user.saved_posts.includes(post.slug))
+    // const response = await axios.get(`${BASE_API_URL}/api/user/${username}`)
+    // const user = response.data.user
+    // const filterPosts = posts.filter((post) => user.saved_posts.includes(post.slug))
     return {
       props: {
-        posts: filterPosts,
+        posts,
         username,
-        user,
+        // user,
       },
     }
   } catch {
@@ -33,51 +33,53 @@ export async function getServerSideProps({ params }) {
   }
 }
 
-const UserDetails = ({ posts, user }) => {
+const UserDetails = ({ posts, username }) => {
   const inputRef = useRef(null)
 
+  // useEffect(() => {
+  //   window.addEventListener('keyup', (e) => {
+  //     if (e.key === '/') {
+  //       inputRef.current?.focus()
+  //     }
+  //   })
+  //   return () => {
+  //     window.removeEventListener('keyup', () => {
+  //       inputRef.current = null
+  //     })
+  //   }
+  // }, [])
+
+  const [user, setUser] = useState(null)
+
   useEffect(() => {
-    window.addEventListener('keyup', (e) => {
-      if (e.key === '/') {
-        inputRef.current?.focus()
-      }
-    })
-    return () => {
-      window.removeEventListener('keyup', () => {
-        inputRef.current = null
-      })
+    const fetchUser = async () => {
+      await axios
+        .get(`${BASE_API_URL}/api/user/${username}`)
+        .then((res) => res.data)
+        .then((res) => {
+          setUser(res.user)
+        })
     }
-  }, [])
+    fetchUser()
+  }, [username])
+  console.log(user)
+
   const [searchValue, setSearchValue] = useState('')
+  const SavedPosts = useMemo(() => {
+    return posts.filter((post) => user?.saved_posts.includes(post.slug))
+  }, [user?.saved_posts, posts])
   const filteredBlogPosts = useMemo(
     () =>
-      posts.filter((frontMatter) => {
+      SavedPosts.filter((frontMatter) => {
         const searchContent = frontMatter.title + frontMatter.summary + frontMatter.tags.join(' ')
         return searchContent.toLowerCase().includes(searchValue.toLowerCase())
       }),
-    [posts, searchValue]
+    [SavedPosts, searchValue]
   )
 
-  const [currentSavedPosts, setCurrentSavedPosts] = useState(user.saved_posts)
-  const handleSavePost = async (slug) => {
-    if (!currentSavedPosts.includes(slug)) {
-      setCurrentSavedPosts([...currentSavedPosts, slug])
-    } else {
-      setCurrentSavedPosts(currentSavedPosts.filter((post) => post !== slug))
-    }
-    console.log('with slug ', slug, ' is ', [...currentSavedPosts])
-    await axios
-      .put(`${BASE_API_URL}/api/user/${user?.username}`, { saved_posts: currentSavedPosts })
-      .then((res) => res.data)
-      .then((res) => {
-        setCurrentSavedPosts(res.newUser.saved_posts)
-        console.log(res.newUser)
-      })
-      .catch((err) => console.log(err.message))
-  }
   return (
     <>
-      <PageSEO title={`${user.username}'s page`} description={`About ${user.username}`} />
+      <PageSEO title={`${username}'s page`} description={`About ${username}`} />
       <AuthorLayoutForUserPage {...user}>
         <div className="divide-y divide-gray-200 dark:divide-gray-700">
           <div className="space-y-2 pt-6 pb-8 md:space-y-5">
@@ -91,9 +93,9 @@ const UserDetails = ({ posts, user }) => {
                 type="text"
                 // value={inputRef.current.value}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder={inputRef.current?.placeholder || 'Nhấn / để tìm kiếm'}
+                placeholder={inputRef.current?.placeholder || 'Tìm kiếm'}
                 onFocus={() => (inputRef.current.placeholder = 'Thử nhập react, framework,...')}
-                onBlur={() => (inputRef.current.placeholder = 'Nhấn / để tìm kiếm')}
+                onBlur={() => (inputRef.current.placeholder = 'Tìm kiếm')}
                 className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
               />
               <svg
@@ -118,7 +120,7 @@ const UserDetails = ({ posts, user }) => {
               <ListItemCard
                 {...frontMatter}
                 key={frontMatter.slug}
-                handleSavePost={() => handleSavePost(frontMatter.slug)}
+                // handleSavePost={() => handleSavePost(frontMatter.slug)}
               />
             ))}
           </ul>

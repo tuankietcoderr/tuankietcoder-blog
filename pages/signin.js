@@ -34,7 +34,7 @@ const SignInPage = () => {
   return (
     <>
       <MemoToastify position="bottom-right" autoClose={3000} />
-      <div className="absolute top-0 left-0 right-0 bottom-0 z-[1000] flex flex-col items-center justify-center gap-y-8 bg-white">
+      <div className="fixed top-0 left-0 right-0 bottom-0 z-[1000] flex flex-col items-center justify-center gap-y-8 bg-white dark:bg-black">
         <Image
           alt="logo"
           src={'/static/favicons/android-icon-144x144.png'}

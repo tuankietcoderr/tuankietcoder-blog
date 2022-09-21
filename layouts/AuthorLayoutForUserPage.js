@@ -187,23 +187,23 @@ const AuthorLayoutForUserPage = ({ children, username, createdAt, additional_inf
             <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">{username}</h3>
             <div className="flex flex-col gap-y-4 pt-6 text-justify">
               <p className="text-center text-sm">Tham gia vào {formatDate(createdAt)}</p>
-              {additional_info.school && (
+              {additional_info?.school && (
                 <div className="flex justify-between gap-x-4 text-sm">
                   <span>Trường học:</span>{' '}
-                  <span className="max-w-[160px] font-bold">{additional_info.school}</span>
+                  <span className="max-w-[200px] font-bold">{additional_info?.school}</span>
                 </div>
               )}
-              {additional_info.company && (
+              {additional_info?.company && (
                 <div className="flex justify-between gap-x-4 text-sm">
                   <span>Công ty:</span>{' '}
-                  <span className="max-w-[160px] font-bold">{additional_info.company}</span>
+                  <span className="max-w-[200px] font-bold">{additional_info?.company}</span>
                 </div>
               )}
-              {additional_info.hobbies && (
+              {additional_info?.hobbies && (
                 <div className="flex justify-between gap-x-4 text-sm">
                   <span>Sở thích:</span>{' '}
-                  <span className="max-w-[160px] font-bold">
-                    {additional_info.hobbies.join(', ') || ''}
+                  <span className="max-w-[200px] font-bold">
+                    {additional_info?.hobbies.join(', ') || ''}
                   </span>
                 </div>
               )}
