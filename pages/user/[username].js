@@ -54,7 +54,7 @@ const UserDetails = ({ posts, username }) => {
   useEffect(() => {
     const fetchUser = async () => {
       await axios
-        .get(`${BASE_API_URL}/api/user/${username}`)
+        .get(`/api/user/${username}`)
         .then((res) => res.data)
         .then((res) => {
           setUser(res.user)
