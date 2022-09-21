@@ -152,7 +152,7 @@ const AuthorLayoutForUserPage = ({ children, username, createdAt, additional_inf
     const hobbies =
       typeof formData.hobbies === 'string' ? formData.hobbies.split(',') : formData.hobbies
     await axios
-      .put(`${BASE_API_URL}/api/user/${username}`, { additional_info: { ...formData, hobbies } })
+      .put(`/api/user/${username}`, { additional_info: { ...formData, hobbies } })
       .then((res) => res.data)
       .then((res) => {
         setUpdateBoxModal(false)
@@ -164,7 +164,7 @@ const AuthorLayoutForUserPage = ({ children, username, createdAt, additional_inf
 
   const handleDelete = async () => {
     await axios
-      .delete(`${BASE_API_URL}/api/user/${username}`)
+      .delete(`/api/user/${username}`)
       .then((res) => res.data)
       .then((res) => console.log(res.message))
       .then(() => router.replace('/'))
