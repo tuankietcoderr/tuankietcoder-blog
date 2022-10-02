@@ -5,7 +5,7 @@ const siteMetadata = {
   description: 'Life is about risk, if you go coding, you are safe',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://www.tuankietcoder.tech',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
   siteRepo: 'https://github.com/tuankietcoderr/tuankietcoder-blog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.jpg',
