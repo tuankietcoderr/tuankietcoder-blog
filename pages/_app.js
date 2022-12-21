@@ -14,6 +14,7 @@ import LayoutWrapper from '@/components/LayoutWrapper'
 import { ClientReload } from '@/components/ClientReload'
 import Script from 'next/script'
 import { AuthContextProvider } from 'contexts/AuthContext'
+import { ToastContainer } from 'react-toastify'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }) {
         {isDevelopment && isSocket && <ClientReload />}
         <Analytics />
         <LayoutWrapper>
+          <ToastContainer position="bottom-right" autoClose={3000} />
           <Component {...pageProps} />
         </LayoutWrapper>
       </ThemeProvider>
