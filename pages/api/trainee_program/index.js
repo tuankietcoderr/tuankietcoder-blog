@@ -1,4 +1,5 @@
 import dbConnect from 'database'
+import Message from 'database/models/Message'
 import Trainee from 'database/models/Trainee'
 
 dbConnect()
@@ -28,6 +29,7 @@ export default async function handle(req, res) {
                   fullName: item.fullName,
                   function: item.function,
                   group: item.group,
+                  ...item,
                 },
               }
             )
@@ -37,6 +39,7 @@ export default async function handle(req, res) {
               fullName: item.fullName,
               function: item.function,
               group: item.group,
+              ...item,
             })
             await newTrainee.save()
           }

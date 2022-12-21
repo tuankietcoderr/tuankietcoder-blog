@@ -17,6 +17,12 @@ const TraineeSchema = new mongoose.Schema(
     group: {
       type: Number,
     },
+    messages: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'messages',
+      },
+    ],
   },
   { timestamps: true }
 )
