@@ -49,7 +49,14 @@ export default async function handler(req, res) {
           })
           temp = message
         } else {
-          res.status(400).json({ success: false, message: 'Please provide send_from or send_to' })
+          const message = await Message.find({}).populate({
+            path: 'send_from send_to',
+            model: Trainee,
+            select: 'fullName id function group',
+          })
+          res
+            .status(200)
+            .json({ success: true, data: message, message: 'Get message successfully' })
         }
         res.status(200).json({ success: true, data: temp, message: 'Get message successfully' })
       } catch (error) {
@@ -82,6 +89,29 @@ export default async function handler(req, res) {
         res
           .status(200)
           .json({ success: true, data: newMessage, message: 'Send message successfully' })
+      } catch (error) {
+        res.status(400).json({ success: false, message: error.message })
+      }
+      break
+    case 'DELETE':
+      try {
+        const { id } = req.query
+        const message = await Message.findByIdAndDelete(id).populate({
+          path: 'send_from send_to',
+          model: Trainee,
+          select: 'fullName id function group',
+        })
+        await Trainee.findOneAndUpdate(
+          { id: message.send_to.id },
+          {
+            $pull: {
+              messages: message._id,
+            },
+          }
+        )
+        res
+          .status(200)
+          .json({ success: true, data: message, message: 'Delete message successfully' })
       } catch (error) {
         res.status(400).json({ success: false, message: error.message })
       }
