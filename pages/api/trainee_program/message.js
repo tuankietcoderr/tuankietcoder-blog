@@ -57,6 +57,7 @@ export default async function handler(req, res) {
           res
             .status(200)
             .json({ success: true, data: message, message: 'Get message successfully' })
+          return
         }
         res.status(200).json({ success: true, data: temp, message: 'Get message successfully' })
       } catch (error) {
