@@ -2,9 +2,13 @@ import Message from 'database/models/Message'
 import dbConnect from 'database'
 import mongoose from 'mongoose'
 import Trainee from 'database/models/Trainee'
+import NextCors from 'nextjs-cors'
 
 dbConnect()
 export default async function handler(req, res) {
+  await NextCors(req, res, {
+    origin: '*',
+  })
   const { method } = req
   const toId = mongoose.Types.ObjectId
 

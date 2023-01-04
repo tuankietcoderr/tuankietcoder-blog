@@ -1,10 +1,14 @@
 import dbConnect from 'database'
 import Message from 'database/models/Message'
 import Trainee from 'database/models/Trainee'
+import NextCors from 'nextjs-cors'
 
 dbConnect()
 
 export default async function handle(req, res) {
+  await NextCors(req, res, {
+    origin: '*',
+  })
   const { method } = req
   switch (method) {
     case 'GET':
