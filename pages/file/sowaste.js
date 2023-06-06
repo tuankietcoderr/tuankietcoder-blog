@@ -36,7 +36,13 @@ const SoWaste = () => {
         />
         <p>Download the SoWaste app to help you reduce your waste and help the environment.</p>
         <button className=" mt-4 rounded bg-primary-500 px-4 py-2 text-white sm:hover:bg-primary-600">
-          <a href="/file/sowaste.apk">Download</a>
+          <a
+            href="https://github.com/GDSC-UIT/SoWaste/blob/gsc_2023/apk/sowaste.apk"
+            target="_self"
+            download
+          >
+            Download
+          </a>
         </button>
       </div>
     </>
